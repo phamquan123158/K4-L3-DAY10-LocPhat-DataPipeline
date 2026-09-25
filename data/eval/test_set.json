@@ -30,7 +30,7 @@
     "id": "eval_004",
     "question_type": "categories",
     "question": "What categories apply to the paper 'Large Language Models Hallucinate and How Retrieval- Augmented Generation Mitigates It'?",
-    "ground_truth": "Uncategorized",
+    "ground_truth": "General",
     "ground_truth_doc_ids": [
       "10.22214/ijraset.2026.84752"
     ]
@@ -48,7 +48,7 @@
     "id": "eval_006",
     "question_type": "authors",
     "question": "Who authored the paper 'Transformasi Layanan Informasi Berbasis Chatbot Retrieval-Augmented Generation dan Large Language Model'?",
-    "ground_truth": "Muhamad Komarudin; Chelly Sabrina; Yessy Mulyani; Puput Budi Wintoro",
+    "ground_truth": "Muhamad Komarudin, Chelly Sabrina, Yessy Mulyani, Puput Budi Wintoro",
     "ground_truth_doc_ids": [
       "10.28932/jutisi.v12i2.13099"
     ]
@@ -66,7 +66,7 @@
     "id": "eval_008",
     "question_type": "categories",
     "question": "What categories apply to the paper 'Quantum-Enhanced Retrieval-Augmented Generation for Hallucination Reduction in Large Language Models'?",
-    "ground_truth": "Uncategorized",
+    "ground_truth": "General",
     "ground_truth_doc_ids": [
       "10.63328/ijcser-v3ri3p6"
     ]
@@ -84,7 +84,7 @@
     "id": "eval_010",
     "question_type": "authors",
     "question": "Who authored the paper 'An Agentic AI System for Roof Design Compliance Using Computer Vision, Retrieval-Augmented Generation and Large Language Models'?",
-    "ground_truth": "Nawari O. Nawari; Oluwatoyin O. Lawal",
+    "ground_truth": "Nawari O. Nawari, Oluwatoyin O. Lawal",
     "ground_truth_doc_ids": [
       "10.3390/buildings16132637"
     ]
