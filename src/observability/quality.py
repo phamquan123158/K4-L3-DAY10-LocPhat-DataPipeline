@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -22,16 +23,20 @@ def build_freshness_report(df: pd.DataFrame, settings: Settings, report_path: Pa
     total_rows = len(df)
     threshold = settings.freshness_threshold_days
 
-    if "age_days" not in df.columns and "published" in df.columns and total_rows > 0:
-        df = df.copy()
-        df["age_days"] = (
-            pd.Timestamp.now(tz="UTC").date()
-            - pd.to_datetime(df["published"], errors="coerce")
-            .dt.date.map(lambda d: pd.Timestamp(d).tz_localize("UTC").date())
-        ).apply(lambda d: (pd.Timestamp.now(tz="UTC").date() - d).days if pd.notna(d) else None)
+    if total_rows > 0:
+        if "age_days" not in df.columns or df["age_days"].isna().all():
+            df = df.copy()
+            today = datetime.now(timezone.utc).date()
 
-    if "age_days" in df.columns and total_rows > 0:
-        stale_rows = int((df["age_days"].fillna(-1) > threshold).sum())
+            def _calc_age(pub: Any) -> int:
+                try:
+                    return (today - datetime.strptime(str(pub)[:10], "%Y-%m-%d").date()).days
+                except Exception:
+                    return 0
+
+            df["age_days"] = df["published"].apply(_calc_age) if "published" in df.columns else 0
+
+        stale_rows = int((df["age_days"].fillna(0) > threshold).sum())
         stale_ratio = float(stale_rows / total_rows)
     else:
         stale_rows = 0

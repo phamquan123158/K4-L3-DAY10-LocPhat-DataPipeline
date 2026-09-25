@@ -86,6 +86,7 @@ def build_clean_dataframe(records: Sequence[PaperRecord], run_date: datetime) ->
                 "abs_url": abs_url,
                 "pdf_url": pdf_url,
                 "comment": comment,
+                "age_days": age_days,
                 "authors_joined": authors_joined,
                 "categories_joined": categories_joined,
                 "summary_chars": summary_chars,
