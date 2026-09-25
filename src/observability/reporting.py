@@ -74,20 +74,30 @@ def generate_corruption_report(
     c_judge = corrupted_metrics.get("mean_judge_score", 0.0)
     r_judge = repaired_metrics.get("mean_judge_score", 0.0)
 
+    gx_baseline = "✅ PASSED (100%)"
+    gx_corrupted = "❌ FAILED (Phát hiện lỗi)" if not corrupted_quality.get("success", False) else "✅ PASSED"
+    gx_repaired = "✅ PASSED (Phục hồi sạch bóng)" if repaired_quality.get("success", False) else "❌ FAILED"
+
+    fresh_baseline = "✅ Đạt chuẩn"
+    fresh_corrupted = "❌ Vi phạm cảnh báo (> 180 ngày)" if not corrupted_freshness.get("is_fresh", True) else "✅ Đạt chuẩn"
+    fresh_repaired = "✅ Đạt chuẩn" if repaired_freshness.get("is_fresh", True) else "❌ Vi phạm"
+
     content = f"""# Báo Cáo Đối Chiếu 3 Trạng Thái — Baseline vs Corrupted vs Repaired
 
 ## 1. Bảng Đối Chiếu Hiệu Năng 3 Trạng Thái
-| Chỉ số (Metric) | Baseline (Sạch) | Corrupted (Lỗi) | Repaired (Phục hồi) | Tác động của Corruption | Mức độ phục hồi |
+| Metric / Chỉ số | Baseline (Dữ liệu Sạch) | Corrupted (Dữ liệu Bị Lỗi) | Repaired (Sau Khi Phục Hồi) | Tác động của Corruption | Mức độ phục hồi |
 | :--- | :---: | :---: | :---: | :--- | :--- |
+| **Data Quality Gate** | {gx_baseline} | {gx_corrupted} | {gx_repaired} | Chặn đứng dữ liệu lỗi | Phục hồi toàn vẹn |
+| **Kiểm tra Độ Tươi (Freshness)** | {fresh_baseline} | {fresh_corrupted} | {fresh_repaired} | Cảnh báo dữ liệu mốc | Đạt chuẩn SLA tươi mới |
 | **Retrieval Hit Rate** | {b_hit:.1f}% | {c_hit:.1f}% | {r_hit:.1f}% | Giảm {b_hit - c_hit:.1f}% | Phục hồi {r_hit - c_hit:.1f}% |
 | **Mean Token F1** | {b_f1:.1f}% | {c_f1:.1f}% | {r_f1:.1f}% | Giảm {b_f1 - c_f1:.1f}% | Phục hồi {r_f1 - c_f1:.1f}% |
 | **LLM Judge Score** | {b_judge:.2f}/5.0 | {c_judge:.2f}/5.0 | {r_judge:.2f}/5.0 | Giảm {b_judge - c_judge:.2f} điểm | Phục hồi {r_judge - c_judge:.2f} điểm |
 
 ## 2. Phân Tích Hiện Tượng Silent Failure & Cảnh Báo Observability
 1. **Khi bị tiêm lỗi (Corrupted):**
-   - Great Expectations 1.x phát hiện vi phạm tính duy nhất (`paper_id` uniqueness) do duplicate rows.
-   - Freshness SLA phát hiện tỷ lệ bài cũ tăng vọt do kịch bản `stale_date` (lùi 5 năm), gắn cờ `is_fresh = False`.
-   - Hiệu năng RAG suy giảm rõ rệt: do tiêu đề bị cắt cụt (`truncate_title`) và tóm tắt bị rỗng/chèn rác, Agent không thể tìm đúng ngữ cảnh hoặc trả lời sai.
+   - Great Expectations 1.x phát hiện vi phạm tính duy nhất (`paper_id` uniqueness) do duplicate rows và trường tóm tắt bị rỗng (`ExpectColumnValueLengthsToBeBetween`).
+   - Freshness SLA phát hiện tỷ lệ bài cũ tăng vọt lên ({corrupted_freshness.get('stale_ratio', 0.0) * 100:.1f}%) do kịch bản `stale_date` (lùi 5 năm), vượt ngưỡng 25% và gắn cờ `is_fresh = False`.
+   - Hiệu năng RAG suy giảm rõ rệt (Silent Failure): do tiêu đề bị cắt cụt (`truncate_title`) và tóm tắt bị rỗng/chèn rác (`inject_text_noise`), Agent không thể tìm đúng ngữ cảnh hoặc trả lời sai.
 2. **Sau khi chạy phục hồi (Repaired):**
    - Cơ chế Idempotent Repair tái tạo lại dữ liệu sạch từ bản lưu trữ thô ban đầu (`data/raw/`).
    - Các chỉ số Hit Rate, Token F1 và Judge Score khôi phục lại mức Baseline ban đầu.

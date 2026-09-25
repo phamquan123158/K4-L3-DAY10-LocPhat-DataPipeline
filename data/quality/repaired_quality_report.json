@@ -1,5 +1,5 @@
 {
-  "report_name": "baseline",
+  "report_name": "repaired",
   "success": true,
   "gx_success": true,
   "is_fresh": true,
@@ -22,12 +22,12 @@
         "expectation_config": {
           "type": "expect_table_row_count_to_be_between",
           "kwargs": {
-            "batch_id": "papers_source_baseline-papers_asset_baseline",
+            "batch_id": "papers_source_repaired-papers_asset_repaired",
             "min_value": 5,
             "max_value": 5000
           },
           "meta": {},
-          "id": "2fc06f8a-3881-4d20-a97c-79e265dc1e4a",
+          "id": "f03d6b27-bc2c-4e1b-8ea7-2df82f973aa8",
           "severity": "critical"
         },
         "result": {
@@ -45,11 +45,11 @@
         "expectation_config": {
           "type": "expect_column_values_to_not_be_null",
           "kwargs": {
-            "batch_id": "papers_source_baseline-papers_asset_baseline",
+            "batch_id": "papers_source_repaired-papers_asset_repaired",
             "column": "paper_id"
           },
           "meta": {},
-          "id": "fc83ef66-9d1e-4fdb-82aa-efe0071d7549",
+          "id": "c5f197db-2b44-4b7d-957d-4378e2a51617",
           "severity": "critical"
         },
         "result": {
@@ -72,11 +72,11 @@
         "expectation_config": {
           "type": "expect_column_values_to_be_unique",
           "kwargs": {
-            "batch_id": "papers_source_baseline-papers_asset_baseline",
+            "batch_id": "papers_source_repaired-papers_asset_repaired",
             "column": "paper_id"
           },
           "meta": {},
-          "id": "289d4094-6c26-413e-b3e1-414563d558b1",
+          "id": "495b209a-9eac-456c-a096-904f012024eb",
           "severity": "critical"
         },
         "result": {
@@ -103,11 +103,11 @@
         "expectation_config": {
           "type": "expect_column_values_to_not_be_null",
           "kwargs": {
-            "batch_id": "papers_source_baseline-papers_asset_baseline",
+            "batch_id": "papers_source_repaired-papers_asset_repaired",
             "column": "title"
           },
           "meta": {},
-          "id": "aab01ee4-8241-4106-8d8c-9dce9a982226",
+          "id": "fe250fd0-eeac-471f-b179-d66633d18088",
           "severity": "critical"
         },
         "result": {
@@ -130,11 +130,11 @@
         "expectation_config": {
           "type": "expect_column_values_to_not_be_null",
           "kwargs": {
-            "batch_id": "papers_source_baseline-papers_asset_baseline",
+            "batch_id": "papers_source_repaired-papers_asset_repaired",
             "column": "text_for_embedding"
           },
           "meta": {},
-          "id": "47a18d54-ff91-488d-a72c-e9f439720e07",
+          "id": "0bf1276a-67ad-4361-a249-3df7615c7569",
           "severity": "critical"
         },
         "result": {
@@ -157,12 +157,12 @@
         "expectation_config": {
           "type": "expect_column_value_lengths_to_be_between",
           "kwargs": {
-            "batch_id": "papers_source_baseline-papers_asset_baseline",
+            "batch_id": "papers_source_repaired-papers_asset_repaired",
             "column": "summary",
             "min_value": 30
           },
           "meta": {},
-          "id": "231f2f09-3c8e-4b99-a233-2df59b126128",
+          "id": "a5d922e7-5059-407b-a60d-ff79c8fb4c0f",
           "severity": "critical"
         },
         "result": {
@@ -185,7 +185,7 @@
         }
       }
     ],
-    "suite_name": "papers_baseline_suite",
+    "suite_name": "papers_repaired_suite",
     "suite_parameters": {},
     "statistics": {
       "evaluated_expectations": 6,
@@ -199,13 +199,13 @@
         "batch_data": "PandasDataFrame"
       },
       "batch_markers": {
-        "ge_load_time": "20260925T093145.487710Z",
+        "ge_load_time": "20260925T093306.154518Z",
         "pandas_data_fingerprint": "a7e9a5bb09933eadc8377ecac9b3aa54"
       },
       "active_batch_definition": {
-        "datasource_name": "papers_source_baseline",
+        "datasource_name": "papers_source_repaired",
         "data_connector_name": "fluent",
-        "data_asset_name": "papers_asset_baseline",
+        "data_asset_name": "papers_asset_repaired",
         "batch_identifiers": {
           "dataframe": "<DATAFRAME>"
         }

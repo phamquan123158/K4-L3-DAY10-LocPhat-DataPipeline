@@ -1,0 +1,78 @@
+{
+  "timestamp": "2026-09-25T09:32:55.233551+00:00",
+  "initial_rows": 24,
+  "final_rows": 24,
+  "total_scenarios": 6,
+  "scenarios": [
+    {
+      "scenario": "drop_latest_records",
+      "description": "B\u1ecf r\u01a1i c\u00e1c b\u00e0i b\u00e1o m\u1edbi nh\u1ea5t (m\u00f4 ph\u1ecfng m\u1ea5t d\u1eef li\u1ec7u t\u01b0\u01a1i)",
+      "affected_count": 4,
+      "paper_ids": [
+        "10.70267/aitia.2026482489",
+        "10.54254/2755-2721/2026.36624",
+        "10.1145/3837074",
+        "10.22214/ijraset.2026.84752"
+      ]
+    },
+    {
+      "scenario": "blank_summary",
+      "description": "X\u00f3a tr\u1eafng ph\u1ea7n t\u00f3m t\u1eaft \u1edf m\u1ed9t s\u1ed1 d\u00f2ng (m\u00f4 ph\u1ecfng thi\u1ebfu th\u00f4ng tin)",
+      "affected_count": 3,
+      "paper_ids": [
+        "10.66917/ijaeic.a000015",
+        "10.28932/jutisi.v12i2.13099",
+        "10.3390/knowledge6030022"
+      ]
+    },
+    {
+      "scenario": "inject_text_noise",
+      "description": "Ch\u00e8n c\u00e1c chu\u1ed7i k\u00fd t\u1ef1 r\u00e1c v\u00f4 ngh\u0129a v\u00e0o text_for_embedding",
+      "affected_count": 3,
+      "paper_ids": [
+        "10.63328/ijcser-v3ri3p6",
+        "10.1145/3818621",
+        "10.3390/buildings16132637"
+      ]
+    },
+    {
+      "scenario": "truncate_title",
+      "description": "C\u1eaft ng\u1eafn ti\u00eau \u0111\u1ec1 b\u00e0i b\u00e1o xu\u1ed1ng d\u01b0\u1edbi 10 k\u00fd t\u1ef1",
+      "affected_count": 4,
+      "paper_ids": [
+        "10.21079/11681/50309",
+        "10.1007/s10115-026-02792-4",
+        "10.1088/2515-7647/ae7491",
+        "10.52060/juptik.v4i1.4318"
+      ]
+    },
+    {
+      "scenario": "stale_date",
+      "description": "\u0110\u1ed5i ng\u00e0y xu\u1ea5t b\u1ea3n v\u1ec1 5 n\u0103m tr\u01b0\u1edbc (m\u00f4 ph\u1ecfng d\u1eef li\u1ec7u b\u1ecb m\u1ed1c meo)",
+      "affected_count": 10,
+      "paper_ids": [
+        "10.3390/buildings16132637",
+        "10.21079/11681/50309",
+        "10.1007/s10115-026-02792-4",
+        "10.1088/2515-7647/ae7491",
+        "10.52060/juptik.v4i1.4318",
+        "10.1148/radiol.251581",
+        "10.7717/peerj-cs.3882",
+        "10.1145/3805774",
+        "10.3389/fmed.2026.1817215",
+        "10.55041/isjem07213"
+      ]
+    },
+    {
+      "scenario": "duplicate_rows",
+      "description": "Nh\u00e2n \u0111\u00f4i m\u1ed9t s\u1ed1 d\u00f2ng \u0111\u1ec3 t\u1ea1o b\u1ea3n ghi tr\u00f9ng l\u1eb7p",
+      "affected_count": 4,
+      "paper_ids": [
+        "10.66917/ijaeic.a000015",
+        "10.28932/jutisi.v12i2.13099",
+        "10.3390/knowledge6030022",
+        "10.63328/ijcser-v3ri3p6"
+      ]
+    }
+  ]
+}
