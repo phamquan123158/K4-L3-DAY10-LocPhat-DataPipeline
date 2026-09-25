@@ -14,10 +14,9 @@
 | STT | Họ và tên | MSSV | Vai trò chính | Module/deliverable sở hữu |
 | --: | --- | --- | --- | --- |
 | 1 | **Nguyễn Minh Tuấn** | **2A202602850** | Trưởng nhóm & Pipeline Integrator | Ingestion (`crossref.py`), Cleaning (`cleaning.py`), Quality Gate (`quality.py`), Corruption (`corruption.py`), Reporting (`reporting.py`), Orchestration (`phase1.py`, `corruption_flow.py`) |
-| 2 | [Thành viên 2 - Tự điền Họ tên] | [MSSV] | [Vai trò] | [File, hàm hoặc artifact phụ trách] |
+| 2 | **Chung Văn Duy** | **2A202602854** | Data Foundation & Baseline Pipeline | Ingestion (`crossref.py`), Cleaning (`cleaning.py`), Quality Gate (`quality.py`), Raw Snapshot (`data/raw/`), Phase 1 Pipeline (`phase1.py`) |
 | 3 | [Thành viên 3 - Tự điền Họ tên] | [MSSV] | [Vai trò] | [File, hàm hoặc artifact phụ trách] |
 | 4 | [Thành viên 4 - Tự điền Họ tên] | [MSSV] | [Vai trò] | [File, hàm hoặc artifact phụ trách] |
-| 5 | [Thành viên 5 - Nếu có] | [MSSV] | [Vai trò] | [File, hàm hoặc artifact phụ trách] |
 
 ---
 
@@ -50,8 +49,8 @@ Nguồn Crossref API (hoặc Snapshot Offline data/raw/)
 
 | Khối | Input | Xử lý chính | Output/artifact | Owner |
 | :--- | :--- | :--- | :--- | :--- |
-| **Ingestion** | Crossref REST API / `crossref_response.json` | Fetch, retry/fallback, parse fields, raw preservation | `data/raw/crossref_records.json` | Nguyễn Minh Tuấn |
-| **Cleaning** | `data/raw/crossref_records.json` | Khử thẻ XML, tính `age_days`, tạo `text_for_embedding`, dedup `paper_id` | `data/clean/papers_clean.csv`, `papers_clean.json` | Nguyễn Minh Tuấn |
+| **Ingestion** | Crossref REST API / `crossref_response.json` | Fetch, retry/fallback, parse fields, raw preservation | `data/raw/crossref_records.json` | Nguyễn Minh Tuấn, Chung Văn Duy |
+| **Cleaning** | `data/raw/crossref_records.json` | Khử thẻ XML, tính `age_days`, tạo `text_for_embedding`, dedup `paper_id` | `data/clean/papers_clean.csv`, `papers_clean.json` | Nguyễn Minh Tuấn, Chung Văn Duy |
 | **Embedding/index** | Cleaned DataFrame | MiniLM 384-dim vector embedding, Persistent ChromaDB | `data/chroma/`, `data/embeddings/` | [Thành viên phụ trách RAG] |
 | **Evaluation** | Cleaned DataFrame & Chroma index | Sinh 10 câu test set, tính Hit Rate, Token F1, LLM Judge | `data/eval/test_set.json`, `baseline_metrics.json` | [Thành viên phụ trách Eval] |
 | **Observability** | DataFrame sạch / lỗi | Ephemeral context GX 1.x, 4 Expectations, Freshness SLA | `data/quality/*_quality_report.json` | Nguyễn Minh Tuấn |
