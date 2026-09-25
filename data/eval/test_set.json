@@ -1,0 +1,92 @@
+[
+  {
+    "id": "eval_001",
+    "question_type": "summary",
+    "question": "What is the summary of the paper 'Retrieval-Augmented Generation for Large Language Model-Based Intelligent Assistants: A Review'?",
+    "ground_truth": "Large language models have accelerated the development of intelligent assistants by providing flexible natural- language understanding and generation. However, hallucination, knowledge staleness, and limited coverage of domain-specific information continue to restrict their reliability in knowledge-intensive tasks. This review examines how Retrieval -Augmented Generation (RAG) can strengthen LLM-based intelligent assistants by connecting generative capability with external, maintainable knowledge. It synthesi zes research on the technical foundations of RAG, key components and optimization strategies, and applications and challenges in intelligent-assistant settings. The review finds that RAG can improve knowledge accuracy and timeliness by grounding responses in retrieved evidence and allowing knowledge resources to be updated independently of the base model. These benefits are conditional: unreliable retrieval, poorly maintained sources, ineffective use of context, and fragmented evaluation can still produce u nsupported or unsafe answers. Reliable deployment, therefore, requires coordinated retrieval quality, knowledge management, generation control, and trustworthy evaluation. Future RAG-based assistants should combine these capabilities to become scalable, secure, evidence-aware, and verifiable systems.",
+    "ground_truth_doc_ids": [
+      "10.70267/aitia.2026482489"
+    ]
+  },
+  {
+    "id": "eval_002",
+    "question_type": "authors",
+    "question": "Who authored the paper 'Advances in Reinforcement Learning for Retrieval-Augmented Generation in Large Language Model'?",
+    "ground_truth": "Zunlong Hong",
+    "ground_truth_doc_ids": [
+      "10.54254/2755-2721/2026.36624"
+    ]
+  },
+  {
+    "id": "eval_003",
+    "question_type": "date",
+    "question": "When was the paper 'Towards Trustworthy Retrieval Augmented Generation for Large Language Models: A Survey' published?",
+    "ground_truth": "2026-09-04",
+    "ground_truth_doc_ids": [
+      "10.1145/3837074"
+    ]
+  },
+  {
+    "id": "eval_004",
+    "question_type": "categories",
+    "question": "What categories apply to the paper 'Large Language Models Hallucinate and How Retrieval- Augmented Generation Mitigates It'?",
+    "ground_truth": "Uncategorized",
+    "ground_truth_doc_ids": [
+      "10.22214/ijraset.2026.84752"
+    ]
+  },
+  {
+    "id": "eval_005",
+    "question_type": "summary",
+    "question": "What is the summary of the paper 'Parameter-Efficient Contextual Calibration for Hallucination Mitigation in Domain-Specific Large Language Model Retrieval-Augmented Generation'?",
+    "ground_truth": "Retrieval-Augmented Generation (RAG) has become the gold standard paradigm for deploying Large Language Models (LLMs) in knowledge-intensive and high-stakes domains such as biomedical inquiry, financial compliance, and legal reasoning. Despite providing external grounding documents, LLMs continue to exhibit insidious factual hallucinations—either by fabricating plausible-sounding unsupported assertions or by ignoring conflicting retrieved evidence in favor of memorized parametric training biases. Existing mitigation approaches, such as full-parameter fine-tuning or iterative self-reflection prompting, incur prohibitive computational costs and excessive inference latency. In this paper, we propose CAL-RAG (Context-Aware Low-Rank Calibration for RAG), a parameter-efficient fine-tuning and decoding calibration framework designed to enforce strict contextual faithfulness without compromising generative fluency. CAL-RAG introduces a dual-channel Low-Rank Adaptation (LoRA) mechanism: a Context-Grounded Adapter that measures token-level semantic consistency against retrieved evidence chunks, and an Entropy-Gated Decoding Controller that dynamically modulates vocabulary probability distributions during autoregressive generation based on cross-attention dispersion. We conduct extensive empirical evaluations across three challenging domain benchmarks: BioASQ (biomedical), FinQA (financial reasoning), and LegalBench (legal clause interpretation), utilizing open-source LLM backbones (Llama-3-8B, Mistral-7B-Instruct, and Gemma-7B). CAL-RAG reduces factual hallucination rates by 43.7% relative to standard RAG baselines while improving Faithfulness Score from 0.642 to 0.891 and answer accuracy by +11.8% F1. Remarkably, CAL-RAG adds only 0.4% trainable parameters and introduces less than 6.5 ms token latency overhead, making it highly suitable for enterprise production deployment.",
+    "ground_truth_doc_ids": [
+      "10.66917/ijaeic.a000015"
+    ]
+  },
+  {
+    "id": "eval_006",
+    "question_type": "authors",
+    "question": "Who authored the paper 'Transformasi Layanan Informasi Berbasis Chatbot Retrieval-Augmented Generation dan Large Language Model'?",
+    "ground_truth": "Muhamad Komarudin; Chelly Sabrina; Yessy Mulyani; Puput Budi Wintoro",
+    "ground_truth_doc_ids": [
+      "10.28932/jutisi.v12i2.13099"
+    ]
+  },
+  {
+    "id": "eval_007",
+    "question_type": "date",
+    "question": "When was the paper 'Integrating Retrieval-Augmented Generation with Large Language Model for Robust and Explainable AI Text Detection' published?",
+    "ground_truth": "2026-08-25",
+    "ground_truth_doc_ids": [
+      "10.3390/knowledge6030022"
+    ]
+  },
+  {
+    "id": "eval_008",
+    "question_type": "categories",
+    "question": "What categories apply to the paper 'Quantum-Enhanced Retrieval-Augmented Generation for Hallucination Reduction in Large Language Models'?",
+    "ground_truth": "Uncategorized",
+    "ground_truth_doc_ids": [
+      "10.63328/ijcser-v3ri3p6"
+    ]
+  },
+  {
+    "id": "eval_009",
+    "question_type": "summary",
+    "question": "What is the summary of the paper 'TeaRAG: A Token-Efficient Agentic Retrieval-Augmented Generation Framework'?",
+    "ground_truth": "Retrieval-Augmented Generation (RAG) utilizes external knowledge to augment Large Language Models’ (LLMs) reliability. For flexibility, agentic RAG employs autonomous, multi-round retrieval and reasoning to resolve queries. Although recent agentic RAG has improved via reinforcement learning, they often incur substantial token overhead from search and reasoning. This tradeoff prioritizes accuracy over efficiency. To address this issue, this work proposes TeaRAG, a T oken- e fficient a gentic RAG framework capable of compressing both retrieval content and reasoning steps. (1) First, the retrieved content is compressed by augmenting chunk-based semantic retrieval with a graph retrieval using concise triplets. A knowledge association graph is then built from semantic similarity and co-occurrence. Finally, Personalized PageRank is leveraged to highlight key knowledge within this graph, reducing the number of tokens per retrieval. (2) Besides, to reduce reasoning steps, Iterative Process-aware Direct Preference Optimization (IP-DPO) is proposed. Specifically, our reward function evaluates the knowledge sufficiency by a knowledge matching mechanism, while penalizing excessive reasoning steps. This design can produce high-quality preference-pair datasets, supporting iterative DPO to improve reasoning conciseness. Across six datasets, TeaRAG improves the average Exact Match by \\(4\\%\\) and \\(2\\%\\) while reducing output tokens by \\(61\\%\\) and \\(59\\%\\) on Llama3-8B-Instruct and Qwen2.5-14B-Instruct, respectively. Code is available at https://github.com/Applied-Machine-Learning-Lab/TeaRAG .",
+    "ground_truth_doc_ids": [
+      "10.1145/3818621"
+    ]
+  },
+  {
+    "id": "eval_010",
+    "question_type": "authors",
+    "question": "Who authored the paper 'An Agentic AI System for Roof Design Compliance Using Computer Vision, Retrieval-Augmented Generation and Large Language Models'?",
+    "ground_truth": "Nawari O. Nawari; Oluwatoyin O. Lawal",
+    "ground_truth_doc_ids": [
+      "10.3390/buildings16132637"
+    ]
+  }
+]
