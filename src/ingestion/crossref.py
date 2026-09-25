@@ -36,42 +36,36 @@ def parse_crossref_payload(payload: dict) -> list[PaperRecord]:
         if not paper_id:
             continue
 
-        titles = item.get("title", [])
-        title_str = titles[0] if isinstance(titles, list) and titles else str(titles or "")
-        title = normalize_whitespace(title_str)
+        title_candidates = item.get("title") or []
+        title = normalize_whitespace(title_candidates[0]) if isinstance(title_candidates, list) and title_candidates else normalize_whitespace(str(title_candidates or ""))
+        if not title:
+            continue
 
-        raw_abstract = item.get("abstract", "")
-        summary = normalize_whitespace(re.sub(r"<[^>]+>", "", raw_abstract))
+        raw_abstract = item.get("abstract") or ""
+        summary = normalize_whitespace(re.sub(r"<[^>]+>", " ", raw_abstract))
 
         authors: list[str] = []
-        for auth in item.get("author", []):
-            if isinstance(auth, dict):
-                given = auth.get("given", "").strip()
-                family = auth.get("family", "").strip()
-                name = f"{given} {family}".strip() if (given or family) else auth.get("name", "").strip()
+        for author in item.get("author") or []:
+            if isinstance(author, dict):
+                given = _clean_text(author.get("given"))
+                family = _clean_text(author.get("family"))
+                name = f"{given} {family}".strip() if (given or family) else _clean_text(author.get("name"))
                 if name:
                     authors.append(name)
-            elif isinstance(auth, str) and auth.strip():
-                authors.append(auth.strip())
+            elif isinstance(author, str):
+                author_name = _clean_text(author)
+                if author_name:
+                    authors.append(author_name)
 
-        subjects = item.get("subject", []) or item.get("categories", [])
-        categories = [normalize_whitespace(s) for s in subjects if s]
+        categories = [
+            _clean_text(category) for category in (item.get("subject") or []) if _clean_text(category)
+        ]
         primary_category = categories[0] if categories else "General"
 
-        pub = item.get("published", {})
-        date_parts = pub.get("date-parts", [[]])[0] if isinstance(pub, dict) else []
-        if len(date_parts) >= 3:
-            published = f"{date_parts[0]:04d}-{date_parts[1]:02d}-{date_parts[2]:02d}"
-        elif len(date_parts) == 2:
-            published = f"{date_parts[0]:04d}-{date_parts[1]:02d}-01"
-        elif len(date_parts) == 1:
-            published = f"{date_parts[0]:04d}-01-01"
-        else:
-            published = str(item.get("created", {}).get("date-time", ""))[:10] or "2026-01-01"
-
-        updated = published
-        abs_url = item.get("URL", f"https://doi.org/{paper_id}")
-        pdf_url = item.get("URL", f"https://doi.org/{paper_id}")
+        published = _parse_date(item.get("published")) or str(item.get("created", {}).get("date-time", ""))[:10] or "2026-01-01"
+        updated = _parse_date(item.get("updated")) or published
+        abs_url = _clean_text(item.get("URL")) or f"https://doi.org/{paper_id}"
+        pdf_url = abs_url
         comment = f"Crossref record {paper_id}"
 
         records.append(
@@ -99,21 +93,22 @@ def fetch_source_records(settings: Settings) -> list[PaperRecord]:
 
     if settings.refresh_source:
         try:
-            query_params = urllib.parse.urlencode(
-                {
-                    "query": settings.source_query,
-                    "filter": settings.source_filter,
-                    "rows": settings.max_results,
-                }
-            )
-            url = f"https://api.crossref.org/works?{query_params}"
-            req = urllib.request.Request(
+            params = {
+                "query.title": settings.source_query,
+                "filter": settings.source_filter,
+                "rows": settings.max_results,
+                "select": "DOI,title,abstract,author,subject,published,created,URL",
+            }
+            query_string = urllib.parse.urlencode(params)
+            url = f"https://api.crossref.org/works?{query_string}"
+            request = urllib.request.Request(
                 url,
                 headers={"User-Agent": "DataObservabilityLab/1.0 (mailto:lab@example.com)"},
             )
-            with urllib.request.urlopen(req, timeout=10) as resp:
-                if resp.status == 200:
-                    payload = json.loads(resp.read().decode("utf-8"))
+            with urllib.request.urlopen(request, timeout=30) as response:
+                if response.status == 200:
+                    payload = json.loads(response.read().decode("utf-8"))
+                    settings.paths.raw_api_response.parent.mkdir(parents=True, exist_ok=True)
                     write_json(settings.paths.raw_api_response, payload)
         except Exception:
             payload = None
@@ -125,15 +120,23 @@ def fetch_source_records(settings: Settings) -> list[PaperRecord]:
             raise FileNotFoundError(f"Raw API response snapshot not found at {settings.paths.raw_api_response}")
 
     records = parse_crossref_payload(payload)
-    write_json(settings.paths.raw_records_json, [asdict(r) for r in records])
+    settings.paths.raw_records_json.parent.mkdir(parents=True, exist_ok=True)
+    write_json(settings.paths.raw_records_json, [asdict(record) for record in records])
     return records
 
 
 def load_raw_records(path: Path) -> list[PaperRecord]:
-    """Doc JSON snapshot va map thanh `PaperRecord`."""
+    """Load a saved JSON snapshot and map it back to PaperRecord objects."""
     payload = read_json(path)
-    if isinstance(payload, dict) and "message" in payload:
-        return parse_crossref_payload(payload)
+
+    if isinstance(payload, dict):
+        if "message" in payload:
+            return parse_crossref_payload(payload)
+        if all(isinstance(item, dict) and "paper_id" in item for item in payload.get("items", [])):
+            return [PaperRecord(**item) for item in payload["items"]]
+        return []
+
     if isinstance(payload, list):
         return [PaperRecord(**item) for item in payload]
+
     return []

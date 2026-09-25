@@ -78,8 +78,6 @@ def run_data_quality_checks(df: pd.DataFrame, settings: Settings, report_name: s
     batch = batch_def.get_batch(batch_parameters={"dataframe": df})
 
     suite = context.suites.add(gx.ExpectationSuite(name=f"papers_{report_name}_suite"))
-
-    # 4 Expectations bat buoc
     suite.add_expectation(gxe.ExpectTableRowCountToBeBetween(min_value=5, max_value=5000))
     suite.add_expectation(gxe.ExpectColumnValuesToNotBeNull(column="paper_id"))
     suite.add_expectation(gxe.ExpectColumnValuesToNotBeNull(column="title"))
@@ -90,10 +88,8 @@ def run_data_quality_checks(df: pd.DataFrame, settings: Settings, report_name: s
     validation_result = batch.validate(suite)
     gx_success = bool(validation_result.success)
 
-    # Freshness Check
     freshness_report_path = settings.paths.freshness_report if report_name == "baseline" else None
     freshness_data = build_freshness_report(df, settings, freshness_report_path)
-
     overall_success = bool(gx_success and freshness_data["is_fresh"])
 
     quality_report: dict[str, Any] = {
